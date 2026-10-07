@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2027 Externship List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@72..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ECE9EC; --surface:#FFFFFF; --ink:#232D4B; --muted:#5A6178; --line:#C9CBD2; --soft:#F2F3F6;
+  --blue:#232D4B; --blue-ink:#FFFFFF; --orange:#E57200; --orange-ink:#232D4B; --orange-soft:#F9DCBE; --orange-soft-ink:#232D4B;
+  --glow:rgba(35,45,75,.16); --shadow:rgba(35,45,75,.10); --bar:rgba(255,255,255,.9); --link:#232D4B; --danger:#B3261E;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif; --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(var(--barh,150px) + 24px + env(safe-area-inset-top,0px))}
+body{margin:0;position:relative;min-height:100vh;background:radial-gradient(50% 30% at 0% 55%,rgba(229,114,0,.10),rgba(229,114,0,0) 70%),radial-gradient(55% 35% at 100% 80%,rgba(35,45,75,.10),rgba(35,45,75,0) 70%),linear-gradient(180deg,#F7EFE6 0%,#EEEBED 40%,#E4E5EA 100%);background-attachment:fixed;background-color:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--link)}
+:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* header */
+.hero-bg{position:absolute;left:0;right:0;top:0;height:min(620px,90vh);z-index:0;pointer-events:none;
+  background:radial-gradient(55% 120% at 12% 20%,#E57200 0%,rgba(229,114,0,0) 62%),radial-gradient(60% 130% at 92% 10%,#232D4B 0%,rgba(35,45,75,0) 68%),radial-gradient(45% 90% at 58% 85%,#F9DCBE 0%,rgba(249,220,190,0) 60%),linear-gradient(115deg,#E57200 0%,#F0A35A 28%,#F9DCBE 48%,#6B7391 72%,#232D4B 100%);
+  -webkit-mask-image:linear-gradient(180deg,#000 38%,transparent 100%);mask-image:linear-gradient(180deg,#000 38%,transparent 100%)}
+.hero-bg canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .9s ease}
+.hero{position:relative;z-index:1;padding:40px clamp(18px,4vw,44px) 30px}
+.hero-in{position:relative;max-width:1320px;margin:0 auto}
+h1{margin:0;color:#232D4B;font-weight:800;font-stretch:72%;font-size:clamp(40px,7vw,76px);line-height:.9;letter-spacing:-.01em}
+.hero p{margin:12px 0 0;color:#232D4B;max-width:46ch;font-size:16px}
+
+/* sticky bar */
+.wrap{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 clamp(14px,3vw,32px)}
+.bar{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));z-index:30;margin-top:0;background:var(--bar);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:28px;box-shadow:0 14px 34px var(--shadow);padding:10px}
+.bar-top{display:flex;gap:10px;align-items:center}
+.search{flex:1;min-width:0;border:0;border-radius:999px;background:var(--soft);padding:12px 18px;color:var(--ink)}
+.search::placeholder{color:var(--muted)}
+.mylist-btn{flex:none;border:0;border-radius:999px;background:var(--ink);color:#FFFFFF;font-weight:700;padding:10px 12px 10px 18px;cursor:pointer;display:flex;align-items:center;gap:8px;min-height:46px}
+.mylist-btn .cnt{background:var(--orange-soft);color:var(--ink);font-weight:800;border-radius:999px;padding:2px 10px}
+.mylist-btn[aria-pressed="true"]{box-shadow:0 0 0 3px var(--orange)}
+.chips{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:0 4px}
+.chip{border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap;font-size:14px}
+.chip:hover{border-color:var(--muted)}
+.chip[aria-pressed="true"],.chip.on{background:var(--blue);border-color:var(--blue);color:var(--blue-ink);font-weight:600}
+.chip .caret{display:inline-block;margin-left:6px;font-size:10px;opacity:.8}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:7px 13px;cursor:pointer;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#FFFFFF;font-weight:600}
+.sep{width:1px;height:22px;background:var(--line);margin:0 3px}
+.dd{position:relative}
+.pop{position:absolute;left:0;top:calc(100% + 8px);z-index:40;min-width:250px;max-width:320px;background:var(--surface);border-radius:20px;box-shadow:0 18px 44px var(--shadow),0 0 0 1px var(--line);padding:14px 16px}
+.pop h3{margin:0 0 8px;font-size:15px}
+.pop .opt{display:flex;align-items:center;gap:10px;padding:6px 2px;cursor:pointer;font-size:14px}
+.pop .opt input{width:17px;height:17px;accent-color:var(--blue);margin:0}
+.pop .opt .n{margin-left:auto;color:var(--muted);font-size:13px}
+.pop .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px}
+.pop .foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.pop .hint{color:var(--muted);font-size:14px;margin:0}
+.btn-pill{border:0;border-radius:999px;background:var(--ink);color:#FFFFFF;padding:8px 16px;font-weight:600;cursor:pointer}
+.linkbtn{border:0;background:none;padding:4px 2px;color:var(--link);text-decoration:underline;cursor:pointer;font-size:14px}
+.sortsel{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:7px 12px;font-size:14px}
+.meta{margin-left:auto;color:var(--muted);font-size:14px;white-space:nowrap}
+.meta b{color:var(--ink)}
+
+/* main */
+.main{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;padding:22px 0 60px;align-items:start}
+.main.split{grid-template-columns:minmax(0,1fr) minmax(360px,430px)}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.row{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:22px;padding:9px 18px 9px 9px;box-shadow:0 3px 10px var(--shadow);
+  transition:transform .16s ease,box-shadow .16s ease;cursor:pointer}
+.row:hover{transform:translateX(4px);box-shadow:0 10px 24px var(--glow),0 0 0 1.5px var(--blue)}
+.row.sel{transform:translateX(8px);box-shadow:0 14px 30px var(--glow),0 0 0 2px var(--blue)}
+.star{flex:none;width:40px;height:40px;border-radius:50%;border:0;background:var(--soft);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.star svg{width:19px;height:19px;fill:none;stroke:var(--ink);stroke-width:1.7}
+.star[aria-pressed="true"]{background:var(--orange-soft)}
+.star[aria-pressed="true"] svg{fill:var(--orange);stroke:var(--orange)}
+.rowmain{flex:1 1 auto;min-width:0;border:0;background:none;text-align:left;padding:2px 0;cursor:pointer;display:flex;flex-direction:column}
+.rowmain .nm{font-weight:700;font-size:16px;line-height:1.25}
+.rowmain .sub{color:var(--muted);font-size:13.5px;display:flex;flex-wrap:wrap;gap:2px 14px;margin-top:2px}
+.rowmain .mine{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.mini{background:var(--orange-soft);color:var(--orange-soft-ink);border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600}
+.mini.note{background:var(--soft);color:var(--muted);font-weight:500}
+.opp{flex:none;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.opp.paid{background:var(--blue);color:var(--blue-ink)}
+.opp.shadow{border:1.5px dashed var(--muted);color:var(--ink)}
+.rate.long{font-size:14px;font-stretch:90%;max-width:150px;line-height:1.25;white-space:normal}
+.rate{flex:none;min-width:78px;text-align:right;font-weight:800;font-stretch:85%;font-size:18px;font-variant-numeric:tabular-nums}
+.empty{background:var(--surface);border-radius:22px;padding:30px;text-align:center;color:var(--muted)}
+.hidden-sec{margin-top:22px}
+.hidden-sec ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.hidden-sec li{display:flex;align-items:center;gap:10px;justify-content:space-between;background:var(--surface);border-radius:16px;padding:9px 14px;color:var(--muted)}
+.hidden-sec li b{color:var(--ink)}
+.ghost{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;cursor:pointer}
+
+/* panel */
+.panel{position:sticky;top:calc(var(--barh,150px) + 24px + env(safe-area-inset-top,0px));max-height:calc(100vh - var(--barh,150px) - 44px);overflow:auto;background:var(--surface);border-radius:30px;box-shadow:0 20px 44px var(--glow);display:none}
+.main.split .panel{display:block}
+.strip{height:70px;background:radial-gradient(70% 140% at 10% 30%,#E57200 0%,rgba(229,114,0,0) 65%),radial-gradient(70% 140% at 95% 20%,#232D4B 0%,rgba(35,45,75,0) 70%),radial-gradient(45% 90% at 55% 90%,#F9DCBE 0%,rgba(249,220,190,0) 60%),linear-gradient(115deg,#E57200,#F9DCBE 50%,#232D4B);position:relative}
+.closep{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#232D4B;font-size:22px;cursor:pointer;line-height:1}
+.pbody{padding:16px 22px 24px;position:relative}
+.ptitle{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.ptitle .tb{min-width:0}
+.ptitle .pid{font-size:12px;color:var(--muted)}
+.ptitle h2{margin:0;font-size:30px;font-weight:800;font-stretch:78%;line-height:1.02}
+.pstar{flex:none;border:0;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer;background:var(--soft);color:var(--ink);min-height:44px}
+.pstar[aria-pressed="true"]{background:var(--orange-soft);color:var(--ink);box-shadow:inset 0 0 0 2px var(--orange)}
+.ploc{color:var(--muted);margin-top:6px;overflow-wrap:anywhere}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:16px}
+.tile{background:var(--soft);border-radius:18px;padding:10px 14px;min-width:0}
+.tile.wide{grid-column:1 / -1}
+.tile .k{font-size:12px;color:var(--muted)}
+.tile .v{font-weight:700;margin-top:3px;overflow-wrap:anywhere}
+.tile .v.big{font-size:22px;font-weight:800;font-stretch:85%;margin-top:0}
+.sec{margin-top:18px}
+.sec h3{margin:0 0 8px;font-size:14px;color:var(--muted);font-weight:600}
+.pchips{display:flex;flex-wrap:wrap;gap:6px}
+.pchip{border:1.5px solid var(--line);border-radius:999px;padding:2px 10px;font-size:13px}
+.pnone{color:var(--muted);font-style:italic;font-size:14px}
+.elig{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px;align-items:baseline;font-size:14px}
+.elig .k{color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:2px;background:var(--orange-soft);color:var(--orange-soft-ink);border-radius:999px;padding:3px 4px 3px 12px;font-weight:600;font-size:13.5px}
+.tag button{border:0;background:none;color:inherit;cursor:pointer;padding:2px 7px;border-radius:999px;font-size:15px;line-height:1}
+.addtag{border:1.5px dashed var(--line);background:transparent;border-radius:999px;padding:4px 12px;cursor:pointer;color:var(--muted);font-size:13.5px}
+.taginput{border:1.5px solid var(--blue);background:var(--surface);border-radius:999px;padding:5px 12px;width:200px;font-size:13.5px}
+textarea.notes{width:100%;min-height:90px;border:0;border-radius:18px;background:var(--soft);padding:12px 14px;resize:vertical;color:var(--ink)}
+textarea.notes::placeholder{color:var(--muted)}
+.saved{font-size:12px;color:var(--muted);min-height:1em;margin-top:4px}
+.desc{font-family:var(--serif);font-size:16.5px;line-height:1.62}
+.desc p{margin:0 0 .75em}.desc p:last-child{margin:0}
+.desc .nd{color:var(--muted);font-style:italic}
+.pfoot{display:flex;justify-content:flex-end;margin-top:18px}
+.hidebtn{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:8px 10px;border-radius:999px;text-decoration:underline}
+.hidebtn:hover{color:var(--ink)}
+
+/* my list */
+.mlhead{padding:22px 22px 12px}
+.mlhead h2{margin:0;font-size:32px;font-weight:800;font-stretch:78%}
+.mlhead .sub{color:var(--muted);margin:2px 0 0}
+.target{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:10px}
+.target input{width:68px;border:0;background:var(--soft);border-radius:999px;padding:6px 12px;text-align:center}
+.progress{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;margin-top:8px}
+.progress span{display:block;height:100%;background:var(--blue);border-radius:4px;transition:width .2s}
+.progress.done span{background:var(--orange)}
+.ml{list-style:none;margin:0;padding:6px 14px;display:flex;flex-direction:column;gap:7px}
+.ml li{display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:18px;padding:9px 10px;cursor:grab;user-select:none;-webkit-user-select:none;position:relative}
+.ml li.settle{transition:transform .15s ease}
+.ml li.dragging{z-index:3;cursor:grabbing;background:var(--surface);box-shadow:0 12px 28px var(--glow),0 0 0 2px var(--blue);transition:none}
+.ml .rk{font-weight:800;font-stretch:75%;font-size:24px;width:28px;text-align:center}
+.ml .grip{touch-action:none;color:var(--muted);width:24px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:18px}
+.ml .nmw{flex:1;min-width:0}
+.ml .nmw b{display:block}
+.ml .nmw small{color:var(--muted);display:block}
+.ml .rm{border:0;background:transparent;width:34px;height:34px;border-radius:50%;cursor:pointer;color:var(--muted);font-size:18px}
+.ml .rm:hover{background:var(--surface);color:var(--ink)}
+.mlactions{display:flex;gap:10px;padding:14px 22px 22px;flex-wrap:wrap;align-items:center}
+.btn-primary{border:0;border-radius:999px;background:var(--blue);color:var(--blue-ink);padding:11px 18px;font-weight:700;cursor:pointer}
+.btn-danger{background:var(--danger)!important;border-color:var(--danger)!important;color:#fff!important}
+.mlempty{padding:16px 22px;color:var(--muted)}
+textarea.fallback{width:100%;height:150px;border:0;border-radius:14px;background:var(--soft);padding:10px;color:var(--ink)}
+.backlink{border:0;background:none;color:var(--link);text-decoration:underline;cursor:pointer;padding:0;font-size:14px}
+
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#FFFFFF;padding:11px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;z-index:60;pointer-events:none}
+.toast.show{opacity:1}
+footer{color:var(--muted);font-size:13px;padding:10px 0 40px}
+body.is-dragging{cursor:grabbing}
+
+@media (max-width:900px){
+  .main.split{grid-template-columns:minmax(0,1fr)}
+  .panel{position:fixed;inset:auto 0 0 0;top:calc(40px + env(safe-area-inset-top,0px));max-height:none;border-radius:28px 28px 0 0;z-index:50;display:block;transform:translateY(105%);visibility:hidden;transition:transform .25s ease,visibility 0s linear .25s;box-shadow:0 -10px 40px rgba(0,0,0,.25);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .main.split .panel{transform:none;visibility:visible;transition:transform .25s ease,visibility 0s}
+  .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+  .chips>*{flex:none}
+  .chips::-webkit-scrollbar{display:none}
+  .meta{display:none}
+  .pop{position:fixed;left:10px;right:10px;top:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:none;max-height:70vh;overflow:auto}
+  .row{flex-wrap:wrap;padding:10px 14px 10px 9px}
+  .rowmain{flex-basis:calc(100% - 60px)}
+  .opp{margin-left:52px}
+  .rate{margin-left:auto;min-width:0;font-size:17px}
+  .opp{font-size:12px;padding:4px 10px}
+  .mylist-btn .lbl{display:none}
+}
+@media (prefers-reduced-motion:reduce){.row,.panel,.ml li.settle,.toast,.hero canvas{transition:none}}
+</style>
+</head>
+<body>
+<div class="hero-bg" aria-hidden="true"><canvas id="heroGl"></canvas></div>
+<header class="hero">
+  <div class="hero-in">
+    <h1>2027<br>Externship List</h1>
+    <p>Every posting, copied exactly as written. Star, tag, take notes, hide firms, and rank your favorites. Everything you add saves only in your browser.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="bar" id="bar">
+    <div class="bar-top">
+      <label class="sr" for="q">Search postings</label>
+      <input class="search" id="q" type="search" placeholder="Search firm, city, software, project type…">
+      <button class="mylist-btn" id="openList" aria-pressed="false"><span class="lbl">My list</span><span class="cnt" id="mlc">0</span></button>
+    </div>
+    <div class="chips" id="chips" role="toolbar" aria-label="Filters"></div>
+  </div>
+
+  <div class="main" id="main">
+    <div>
+      <ol class="list" id="list"></ol>
+      <section class="hidden-sec" id="hiddenSec" aria-label="Hidden firms"></section>
+    </div>
+    <aside class="panel" id="panel" aria-label="Firm details"></aside>
+  </div>
+  <footer>Copied from the official January 2027 externship list. Spelling and wording are kept exactly as posted. Confirm details with the career office before you submit.</footer>
+</div>
+<datalist id="taglist"></datalist>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+function startShader(canvas, opts){
+  opts = opts || {};
+  var gl = canvas.getContext('webgl', {premultipliedAlpha:false, antialias:false});
+  if(!gl) return null;
+  var vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  var fs = [
+'precision highp float;',
+'uniform vec2 r;uniform float t;uniform float sp;uniform float gamt;uniform float sand;',
+'vec3 m289(vec3 x){return x-floor(x*(1./289.))*289.;}vec4 m289(vec4 x){return x-floor(x*(1./289.))*289.;}',
+'vec4 perm(vec4 x){return m289(((x*34.)+1.)*x);}vec4 tis(vec4 r){return 1.79284291400159-.85373472095314*r;}',
+'float sn(vec3 v){const vec2 C=vec2(1./6.,1./3.);const vec4 D=vec4(0.,.5,1.,2.);',
+' vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.-g;',
+' vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);vec3 x1=x0-i1+C.xxx;vec3 x2=x0-i2+C.yyy;vec3 x3=x0-D.yyy;',
+' i=m289(i);vec4 p=perm(perm(perm(i.z+vec4(0.,i1.z,i2.z,1.))+i.y+vec4(0.,i1.y,i2.y,1.))+i.x+vec4(0.,i1.x,i2.x,1.));',
+' float n_=.142857142857;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.*floor(p*ns.z*ns.z);vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.*x_);',
+' vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;vec4 h=1.-abs(x)-abs(y);vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);',
+' vec4 s0=floor(b0)*2.+1.;vec4 s1=floor(b1)*2.+1.;vec4 sh=-step(h,vec4(0.));vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;',
+' vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);',
+' vec4 nr=tis(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=nr.x;p1*=nr.y;p2*=nr.z;p3*=nr.w;',
+' vec4 m=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.);m=m*m;',
+' return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}',
+'float hgt(vec2 p,float tm){float n=sn(vec3(p*.9,tm*.25));',
+' return sin(p.y*2.6+p.x*1.2+n*2.2+tm*.7)*.6+n*.5;}',
+'vec3 field(vec2 p,float tm){float h=hgt(p,tm);float e=.05;',
+' float hx=hgt(p+vec2(e,0.),tm);float hy=hgt(p+vec2(0.,e),tm);',
+' vec3 nrm=normalize(vec3((h-hx)/e*.12,(h-hy)/e*.12,1.));',
+' vec3 c1=vec3(.898,.447,0.);vec3 c2=vec3(.137,.176,.294);vec3 c3=vec3(.976,.863,.745);',
+' float g=smoothstep(-.8,.8,p.x+h*.42);vec3 col=mix(c1,c2,g);',
+' float band=exp(-pow((g-.5)*4.2,2.))*(.55+.45*smoothstep(-.6,.8,h));',
+' col=mix(col,c3,clamp(band,0.,1.)*.92);',
+' vec3 L=normalize(vec3(-.5,.6,.7));float dif=clamp(dot(nrm,L),0.,1.);',
+' float spec=pow(clamp(dot(reflect(-L,nrm),vec3(0.,0.,1.)),0.,1.),10.)*.16;',
+' return (col*(.8+.3*dif)+spec)*1.06;}',
+'vec2 h22(vec2 q){q=vec2(dot(q,vec2(127.1,311.7)),dot(q,vec2(269.5,183.3)));return fract(sin(q)*43758.5453);}',
+'void main(){vec2 uv=gl_FragCoord.xy/r;',
+' float tm=t*sp;',
+' vec2 fc=gl_FragCoord.xy;',
+' vec2 cell=floor(fc/(1.+sand*.7));',
+' vec2 rn=h22(cell);',
+' vec2 suv=uv;',
+' if(sand>.5){vec2 j=(rn-.5)*.2;',
+'  j+=.035*vec2(sin(tm*1.3+rn.x*6.283),cos(tm*1.1+rn.y*6.283));',
+'  suv=uv+j*vec2(r.y/r.x,1.);}',
+' vec2 p=suv-.5;p.x*=r.x/r.y;',
+' float a=radians(50.);p=mat2(cos(a),-sin(a),sin(a),cos(a))*p;p.x-=.15;',
+' vec3 col=field(p,tm);',
+' if(sand>.5){float b=h22(cell+7.3).x;col*=.86+.24*b;',
+'  }',
+' float gr=fract(sin(dot(fc+fract(t*.37)*97.*(1.-sand),vec2(12.9898,78.233)))*43758.5453);',
+' col+=(gr-.5)*gamt;',
+' gl_FragColor=vec4(clamp(col,0.,1.),1.);}'
+  ].join('\n');
+  function sh(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(s));return null;}return s;}
+  var v=sh(gl.VERTEX_SHADER,vs), f=sh(gl.FRAGMENT_SHADER,fs); if(!v||!f) return null;
+  var pr=gl.createProgram();gl.attachShader(pr,v);gl.attachShader(pr,f);gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS)) return null;
+  gl.useProgram(pr);
+  var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+  var loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  var ur=gl.getUniformLocation(pr,'r'), ut=gl.getUniformLocation(pr,'t'), usp=gl.getUniformLocation(pr,'sp'), ug=gl.getUniformLocation(pr,'gamt'), us=gl.getUniformLocation(pr,'sand');
+  var getOpts=typeof opts==='function'?opts:function(){return opts;};
+  var raf=0, t0=performance.now(), stopped=false;
+  var still=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){var scale=getOpts().scale||0.6;var w=Math.max(1,Math.round(canvas.clientWidth*scale)),h=Math.max(1,Math.round(canvas.clientHeight*scale));
+    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}}
+  function frame(now){ if(stopped) return; size(); gl.uniform2f(ur,canvas.width,canvas.height); var o=getOpts(); gl.uniform1f(usp,o.speed); gl.uniform1f(ug,o.grain); gl.uniform1f(us,o.sand);
+    gl.uniform1f(ut,still?6.:(now-t0)/1000+6.); gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    if(!still) raf=requestAnimationFrame(frame); }
+  raf=requestAnimationFrame(frame);
+  canvas.style.opacity='1';
+  return function stop(){stopped=true;cancelAnimationFrame(raf);};
+}
+
+const DATA = [{"id": "01", "employer": "ARCHITECTUREFIRM", "website": "https://architecturefirm.co/", "city": "Brooklyn", "state": "NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$25.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Architecture", "details": "ARCHITECTUREFIRM is a collaboration of architects and designers in Brooklyn, New York and Richmond, Virginia, specialized in hospitality, residential, and contemporary art spaces. We approach architecture in a way that is clear in its process and outcome, economical in both means and gestures, and optimistic in its vision of a better future. Our chief pursuit is a timeless expression of building that is appropriate to its users and their purpose, that blends progressive technology with elemental form.\n\nKey Responsibilities:\n• Participate in internal and client-facing design reviews\n• Contribute to the creation of design work and visualization (drawings, renderings, diagrams, etc.)\n• Observe and record conditions on active project sites\n\nQualifications:\n• Passionate about architecture and design\n• Collaborative and eager to learn\n• Strong foundational skills in design and architectural software", "weeks": [1, 2], "rateNum": 25.0}, {"id": "02", "employer": "architrave pc", "website": "https://www.architravepc.com/", "city": "Washington", "state": "DC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architectural History,Architecture", "grad": "Architectural History,Architecture", "details": "We are looking for a Extern interested in the thorny intersections between historical buildings and modern requirements. Someone who is interested in complex technical and design challenges on some of the most prominent buildings in DC.  A self-directed student who is interested in not just the how but the why of architecture will have a lot to learn at architrave.\n\nCo-ops at architrave will get a range of exposure on projects and roles in a small dynamic firm.\nBasic drafting tasks Revit and Autocad\nCritical thinking and design evaluation\nDesigning and assembling project proposals\nSite survey and existing conditions documentation\nReport editing\nResearch on history, products, and procedures (also likely on the history of products and procedures)\nWorking on and developing direction for our in-house research agenda", "weeks": [1, 2], "rateNum": 20.0}, {"id": "03", "employer": "Beyer Blinder Belle Architects & Planners", "website": "https://www.beyerblinderbelle.com/", "city": "Washington", "state": "DC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "Other, Shadowing Only", "shadowing": "January 4th- 9th", "ug": "Architecture", "grad": "Architecture", "details": "Shadow architects and designers working on historic preservation, adaptive re-use and new construction projects!", "weeks": [1], "rateNum": 0}, {"id": "04", "employer": "Biohabitats Inc.", "website": "https://www.biohabitats.com", "city": "Baltimore", "state": "MD", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$25.00", "dates": "January 4-8, 2027", "shadowing": "", "ug": "Urban + Environmental Planning", "grad": "Landscape Architecture,Urban + Environmental Planning", "details": "This externship opportunity allows students to experience a peek into the consulting world. Externs will have the opportunity to work on a combination of project types working alongside and learning from a team of professionals, including water resource engineers, environmental scientists, fluvial geomorphologists, ecological engineers, landscape architects, and GIS/CADD specialists. The projects they work on will also be interdisciplinary in nature including, but not limited to, master plan design for regions, towns and park systems, stream and wetland restoration design, tree inventory and ecological assessments etc. Due to the nature of consulting, projects will vary in scope and scale, and externs can expect to see projects in various phases.", "weeks": [1], "rateNum": 25.0}, {"id": "05", "employer": "BRW Architects", "website": "https://www.brw-architects.com/", "city": "Charlottesville", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture,Urban + Environmental Planning", "grad": "Architecture,Landscape Architecture,Urban + Environmental Planning", "details": "no details provided", "weeks": [2], "rateNum": 0}, {"id": "06", "employer": "Bushman Dreyfus Architects", "website": "https://bdarchitects.com/", "city": "Charlottesville", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "The extern at Bushman Dreyfus will spend the week producing real work for real clients. They will be introduced to our workflows including the BIM, rendering, organization, and production software we use. They will join site visits for underway projects, join contractor and client meetings, and be part of internal design meetings.", "weeks": [1], "rateNum": 20.0}, {"id": "07", "employer": "CMG Landscape Architecture", "website": "https://www.cmgsite.com/", "city": "San Francisco", "state": "CA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$28.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Urban + Environmental Planning", "grad": "Landscape Architecture,Urban + Environmental Planning", "details": "The extern will work alongside the design team, supporting active projects through visual and graphic contributions.\nResponsibilities include:\n\nAttending project meetings and internal design reviews\nProducing graphic materials and visual information to support project communication\nAssisting project teams with presentation visuals and graphic deliverables\nCreating 3D models and renderings of design concepts\nSupporting the design team with additional tasks as project needs arise", "weeks": [2], "rateNum": 28.0}, {"id": "08", "employer": "CURATA PARTNERS, PLLC", "website": "https://www.curatapartners.com/", "city": "Herndon", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$35.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture,Urban + Environmental Planning", "grad": "Architecture,Landscape Architecture,Urban + Environmental Planning", "details": "We have had externs the past 2 years and it's been a great experience. Curata is a land use and zoning law firm with a special focus on Norther Virginia (and Loudoun County in particular). Our clients rely on us to manage the process of getting their land approved for the correct zoning to match their needs.", "weeks": [1, 2], "rateNum": 35.0}, {"id": "09", "employer": "Daniel Frisch Architecture", "website": "danielfrisch.com", "city": "New York", "state": "NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "This externship offers hands-on exposure to residential architectural practice, with responsibilities that shift based on where our active projects stand, from helping prepare drawings and physical models to joining site visits. Students should come away with a clearer sense of how a design moves from initial concept to reality and what day-to-day collaboration in a small office feels like.", "weeks": [1, 2], "rateNum": 20.0}, {"id": "10", "employer": "Design Workshop, Inc.", "website": "https://www.designworkshop.com/", "city": "Aspen", "state": "CO", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$22.00 (undergrads), $24.00 (grads)", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Urban + Environmental Planning", "grad": "Landscape Architecture", "details": "What we're looking for: Students with exceptional graphic, AutoCAD, analysis, and digital production skills with proficiency in Adobe Suite and 3-D modeling (3-D Max and/or SketchUp). A positive attitude and open mind are a must. The ability to work in-studio is a must.\n\nWho can apply: We will accept applications from recent graduates and students pursuing degrees in landscape architecture, urban design, or planning. Those with dual degrees in both landscape architecture and urban design or planning are strongly encouraged to apply. Candidates must be authorized to work in the United States and be able to relocate for the internship.", "weeks": [1, 2], "rateNum": 22.0}, {"id": "11", "employer": "Design Workshop, Inc.", "website": "https://www.designworkshop.com/", "city": "Raleigh", "state": "NC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$22.00 (undergrads), $24.00 (grads)", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Urban + Environmental Planning", "grad": "Landscape Architecture", "details": "What we're looking for: Students with exceptional graphic, AutoCAD, analysis, and digital production skills with proficiency in Adobe Suite and 3-D modeling (3-D Max and/or SketchUp). A positive attitude and open mind are a must. The ability to work in-studio is a must.\n\nWho can apply: We will accept applications from recent graduates and students pursuing degrees in landscape architecture, urban design, or planning. Those with dual degrees in both landscape architecture and urban design or planning are strongly encouraged to apply. Candidates must be authorized to work in the United States and be able to relocate for the internship.", "weeks": [1, 2], "rateNum": 22.0}, {"id": "12", "employer": "Dialogue + Design Associates, LLC", "website": "www.dialogueanddesign.com", "city": "Charlottesville", "state": "VA", "format": "Hybrid", "hybrid": "In-person work will be held in our co-working space on the Downtown Mall.  This represents approximately 40% of total work commitment.  Remote work can occur at any time and place the extern feels comfortable.  Total expectation (In-person and remote) is 30-35 hours.", "opportunity": "Paid Externship (work produced)", "rate": "$15.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "The exact work content shall be determined in Dec 26'.  Generally, it will include some time spent learning Sketchup, production of building design or potentially a planning study.  A probable day will be:  email/independent work in morning, meet in person to review work and discuss subsequent tasks, begin tasks, remaining work to occur under extern direction.  Extern will be asked to join virtual and in-person meetings where appropriate.", "weeks": [2], "rateNum": 15.0}, {"id": "13", "employer": "EL Studio", "website": "elstudioarch.com", "city": "Washington", "state": "DC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$18.39", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture,Urban + Environmental Planning", "details": "no details provided", "weeks": [1, 2], "rateNum": 18.39}, {"id": "14", "employer": "Gaines Group Architects", "website": "www.thegainesgroup.com", "city": "Charlottesville | Harrisonburg", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "The externship duties will depend on the work we have available at that period of time.  We generally expect our extern will assist our production team by completing redlines, drawing or dimensioning project in plan / elevation, or creating preliminary sections based on conversations with the structural department and examples of previously generated work.", "weeks": [1, 2], "rateNum": 20.0}, {"id": "15", "employer": "Gensler", "website": "gensler.com", "city": "New York", "state": "NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$28.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "Gensler New York is offering a two-week Architecture Externship that provides students with exposure to the design profession within a global architecture and design firm. The extern will gain insight into project work, interdisciplinary collaboration, workplace culture, and career opportunities through job shadowing, project team interactions, mentorship, and professional development activities.", "weeks": [1, 2], "rateNum": 28.0}, {"id": "16", "employer": "Grimm + Parker Achitects", "website": "https://www.grimmandparker.com/", "city": "Charlottesville", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$18.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "Collaborate with Architects on multi family house projects\nUtilize Revit for drafting and design purposes\nJoin in on studio meetings\nWork with inDesign preparing schematic designs", "weeks": [2], "rateNum": 18.0}, {"id": "17", "employer": "Hanbury", "website": "https://www.hanbury.design/", "city": "Norfolk", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$12.77", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "During your Externship, you'll engage in various activities such as research, site visits, design concept development, drafting, and participating in client and project team meetings. Working closely with our architects and support staff, you'll gain valuable insight into architectural design and project development processes.", "weeks": [2], "rateNum": 12.77}, {"id": "18", "employer": "Hanbury", "website": "https://www.hanbury.design/", "city": "Richmond", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$12.77", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "During your Externship, you'll engage in various activities such as research, site visits, design concept development, drafting, and participating in client and project team meetings. Working closely with our architects and support staff, you'll gain valuable insight into architectural design and project development processes.", "weeks": [2], "rateNum": 12.77}, {"id": "19", "employer": "Hart Howerton", "website": "https://www.harthowerton.com/", "city": "San Francisco", "state": "CA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$25.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture,Landscape Architecture", "details": "Working closely with a project team, the UVA Extern will support and assist in completing mark ups, construction drawings, design studies and sketches. There will be various trainings in software programs such as CAD, InDesign, Graphics, and Revit.", "weeks": [1, 2], "rateNum": 25.0}, {"id": "20", "employer": "Hart Howerton", "website": "https://www.harthowerton.com/", "city": "New York", "state": "NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$25.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture,Urban + Environmental Planning", "grad": "Architecture,Landscape Architecture,Urban + Environmental Planning", "details": "no details provided", "weeks": [1, 2], "rateNum": 25.0}, {"id": "21", "employer": "HDR, Inc.", "website": "https://www.hdrinc.com/", "city": "Arlington", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 4-8, 2027", "shadowing": "3-5 days of shadowing are offered and specific dates will be coordinated between employer and student", "ug": "Architecture,Urban + Environmental Planning", "grad": "Architecture,Urban + Environmental Planning,PhD in the Constructed Environment", "details": "Students will have the opportunity to shadow architects, engineers, project managers, and other team members during their time in our Arlington office. Possible activities include shadowing project team meetings, coordination with engineers and other consultants, site visits, professional organization events, and independent learning activities.", "weeks": [1], "rateNum": 0}, {"id": "22", "employer": "HDR, Inc.", "website": "https://www.hdrinc.com/", "city": "Arlington", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 11-15, 2027", "shadowing": "3-5 days of shadowing are offered and specific dates will be coordinated between employer and student", "ug": "Architecture,Urban + Environmental Planning", "grad": "Architecture,Urban + Environmental Planning,PhD in the Constructed Environment", "details": "Students will have the opportunity to shadow architects, engineers, project managers, and other team members during their time in our Arlington office. Possible activities include shadowing project team meetings, coordination with engineers and other consultants, site visits, professional organization events, and independent learning activities.", "weeks": [2], "rateNum": 0}, {"id": "23", "employer": "HH Architecture", "website": "https://hh-arch.com/", "city": "Raleigh", "state": "NC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 5-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "The externship will be a mix of shadowing and real work experience.  Externs will attend client meetings, participate in internal project development, and get a glimpse at what is required for working on public projects.", "weeks": [1, 2], "rateNum": 20.0}, {"id": "24", "employer": "IMEG", "website": "https://imegcorp.com/", "city": "New York", "state": "NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Urban + Environmental Planning", "grad": "Urban + Environmental Planning", "details": "Mix of job shadowing and informational interviews at IMEG, an engineering, planning and consulting firm. The office is located in Lower Manhattan. The majority of the week will be spent with environmental, transportation, and community planners; urban designers; transportation engineers; community engagement specialists; graphic designers; and landscape architects.", "weeks": [2], "rateNum": 0}, {"id": "25", "employer": "JCLA Studio", "website": "--", "city": "Charlottesville", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Landscape Architecture", "details": "We're a small office with a range of projects from residential and multifamily to educational. We would love to provide the right candidate a positive learning experience.", "weeks": [2], "rateNum": 20.0}, {"id": "26", "employer": "Jekyll Island Authority (Historic Preservation)", "website": "jekyllisland.com", "city": "Jekyll Island", "state": "GA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$12.50 (undergrads), $15.00 (grads). Housing provided by employer.", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architectural History,Architecture", "grad": "Architectural History,Architecture", "details": "Students will assist our Historic Preservationist in working on historic facilities around the island and historic district to include:\nReplacing damaged siding on historic structures, rehab/rehanging historic doors and rehab masonry cornice of Causeway Towers and additional projects as required to continue other repair work.", "weeks": [2], "rateNum": 12.5}, {"id": "27", "employer": "Jekyll Island Authority (Landscape & Planning)", "website": "jekyllisland.com", "city": "Jekyll Island", "state": "GA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$12.50 (undergrads), $15.00 (grads). Housing provided by employer.", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture,Urban + Environmental Planning", "grad": "Landscape Architecture", "details": "Students will assist our Director of Landscaping and Planning using drafting, drawing skills and fndamental landscape architecture design capabilities, hands on landscape duties to include duties that directly relate to their assigned project including manual labor contributing to the wildlife corridor reforestation program, and landscape installation projects around Jekyll Island. They will help with basic surveying, site analysis and on-site layout and staking.", "weeks": [1, 2], "rateNum": 12.5}, {"id": "28", "employer": "John J Burger Architect", "website": "www.burgerarchitect.com", "city": "Fredericksburg", "state": "VA", "format": "Hybrid", "hybrid": "We are open to all schedules whether in person, hybrid or remote.", "opportunity": "Paid Externship (work produced)", "rate": "$25.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "The externship opportunity would allow students to gain experience in a firm that especially can teach a young individual technical detailing skills, construction and hands on coorindation with engineering consultants. The individaul would be involved in many phases of design from schematic design, rendering support as well as construction documents for a wide range of projects. The firm size is small so the individual would receive hands on instruction during the course of the externship. Visits to job sites would be available, exposure to engineering consultants would take place and exposure to general contractors would be available.", "weeks": [1, 2], "rateNum": 25.0}, {"id": "29", "employer": "Klopfer Martin Design Group", "website": "www.klopfermartin.com", "city": "Boston", "state": "MA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$18.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture,Landscape Architecture", "details": "KMDG is a landscape architecture practice with both landscape architects and architects on staff.  We are open to extern candidates in either discipline with a demonstrated interest in landscape.  Our preferred start date is January 5 and we are otherwise flexible on the dates of the externship, so we will coordinate with the selected candidate.", "weeks": [1, 2], "rateNum": 18.0}, {"id": "30", "employer": "Marvel Architects, Landscape Architects, Urban Designers, LLP", "website": "https://marveldesigns.com/", "city": "Richmond", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture,Urban + Environmental Planning", "grad": "Architecture,Landscape Architecture,Urban + Environmental Planning", "details": "Join Marvel's Richmond office for a hands-on introduction to professional architectural practice. Externs will be integrated into active project teams and work alongside architects, landscape architects and designers on current projects throughout Virginia. Similar to a junior team member, students may contribute to design studies, research, drawing production, presentations, and other project work.\n\nEach extern will also be paired with a mentor who will provide guidance throughout the experience and offer insight into professional practice and career development. This is an opportunity to contribute to real work, build relationships with Marvel staff, and experience the collaborative culture and day-to-day life of our Richmond studio.", "weeks": [1, 2], "rateNum": 20.0}, {"id": "31", "employer": "Mathes Brierre Achitects", "website": "www.mathesbrierre.com", "city": "New Orleans", "state": "LA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$21.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture,Landscape Architecture", "details": "Mathes Brierre is a multidisciplinary firm, with Architecture, Landscape, and Interiors studios. The work would include being a part of either the Architecture or Landscape Architecture studios to support current active projects, including a Presidential Library, new Music Museum, Baseball Stadium, or other significant project. Work might include drawing, rendering, site visits, as well as opportunities to assist ongoing CA work for all studios as well as understand and research our own archive onsite from the firm, dating from 1895 to the present.", "weeks": [1, 2], "rateNum": 21.0}, {"id": "32", "employer": "MBB Architects", "website": "https://www.mbbarch.com/", "city": "New York", "state": "NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "MBB CULTURE\n\nMBB is committed to fostering a diverse and equitable workplace and profession. MBB has built an inclusive, welcoming culture in which people feel supportive and safe. Our collaborative studio environment enables architects and designers to hone their skills, expand their knowledge, and make positive contributions to the built environment and the communities we serve. MBB invests in our team members by providing time, resources, study groups, and opportunities for research.\nNOTE: Start and end dates flexible.\nABOUT THE POSITION\nInternship Responsibilities Include:\n• Assisting drawing architectural documents using Revit/AutoCAD\n\n• Developing presentation materials using 3d modeling software\n• Developing marketing material using rendering software and Adobe suite\n• Product research as well as general office tasks\n• Attending general office, project meetings and site visits", "weeks": [1, 2], "rateNum": 20.0}, {"id": "33", "employer": "MDLE", "website": "www.mdle.com", "city": "Charlottesville", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "Majority of our work is DoD and takes place in Europe, coordination virtually with European partners.", "weeks": [1, 2], "rateNum": 20.0}, {"id": "34", "employer": "Mecklenburg County", "website": "https://www.mecklenburgva.com/", "city": "Mecklenburg County", "state": "VA", "format": "Hybrid", "hybrid": "In-person, virtual, or hybrid shadowing experience is offered and the final schedule and format for the externship will be decided between the student and employer", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Urban + Environmental Planning", "grad": "Urban + Environmental Planning,PhD in the Constructed Environment", "details": "Mecklenburg County offers a great experience in rural planning. The Planning and Zoning Department deals with a wide variety of requests, from data centers and battery storage facilities to wedding venues and Hobbit-homes.", "weeks": [1, 2], "rateNum": 0}, {"id": "35", "employer": "Metropolitan Area Planning Council (MAPC)", "website": "https://www.mapc.org/", "city": "Boston", "state": "MA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "Other, Shadowing Only", "shadowing": "MAPC is flexible to schedule the externship with the selected student. There is availability for the student to shadow on Tuesday January 5th or on Tuesday January 12th, and to increase the shadowing to two days if there is interest.", "ug": "Urban + Environmental Planning", "grad": "Urban + Environmental Planning", "details": "The Metropolitan Area Planning Council (MAPC) is pleased to offer an in-person shadowing externship for both undergraduate and graduate Urban + Environmental Planning Students. MAPC is the regional planning agency for the metro Boston area, serving 101 cities and towns in the region. The externs will have the opportunity to engage with staff, attend meetings and learn about current project work while spending the day at MAPC's office in downtown Boston. MAPC has eight planning teams; including Arts and Culture, Clean Energy, Economic Development, Environment, Housing, Land Use, Public Health and Transportation; and four service and advocacy teams, which includes Community Engagement, Data Services, Government Affairs and Municipal Collaboration. The externship will primarily be situated within the Housing and Land Use departments, but there will be opportunities for the extern to engage with departments that they are particularly interested in. The official schedule for the externship will be determined following a discussion with the selected student(s) on their specific interests within the planning field, and what they would most like to learn about MAPC.\n\nThis externship will help students get a sense of what it is like to work as a planner in the public sector, and at the regional planning level. Students will have the opportunity to explore specific interest areas within planning and expand their professional network. NOTE: MAPC cannot offer compensation, housing assistance, meals, transportation support, or other benefits to the extern.", "weeks": [1, 2], "rateNum": 0}, {"id": "36", "employer": "MGA Partners", "website": "www.mgapartners.com", "city": "Philadelphia", "state": "PA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$25.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "MGA Partners is an architectural design studio focusing on college and university, non-profit and institutional clients.  Our studio is a collaborative environment wherein externs are exposed to work in design and construction through shadowing meetings, project assignments and field visits.", "weeks": [2], "rateNum": 25.0}, {"id": "37", "employer": "Michael Wenrich Architects", "website": "www.michaelwenrich.com", "city": "Orlando", "state": "FL", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Architecture", "details": "no details provided", "weeks": [2], "rateNum": 20.0}, {"id": "38", "employer": "Moody Graham", "website": "www.moodygraham.com", "city": "Washington", "state": "DC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$25.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Landscape Architecture", "details": "no details provided", "weeks": [2], "rateNum": 25.0}, {"id": "39", "employer": "Moseley", "website": "https://www.moseleydesigns.com", "city": "Richmond", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$24.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "Internship Highlights:\nMentorship: Interns will be paired with experienced professionals who provide guidance, support, and valuable A/E insights.\nDiverse Projects: Gain exposure to a range of projects, including civic, justice, K-12, higher education, multifamily housing, mixed-use, and senior living.\nProfessional Development: Participate in workshops, seminars, and training that cover the latest trends, tools, and methodologies.\nNetworking Opportunities: Attend events and meetings with industry leaders, clients, Moseley's team members, and other interns to build professional connections.\n\nMultidisciplinary Team: Engage with a team of in-house specialists across our 12 offices. This cross-pollination of skills and knowledge fosters a holistic understanding of the built environment, equipping you with a breadth of insight and hands-on expertise that is rare to find. You'll gain perspective on how integrated solutions are crafted from concept to completion.\n\nWhat You'll Be Doing:\nCollaborating with architects, engineers, interior designers, and construction administration on projects.\nParticipating in site visits and client meetings.\nLearning about project planning, budgeting, and scheduling.\nContributing to design development.\nUsing Revit.", "weeks": [1, 2], "rateNum": 24.0}, {"id": "40", "employer": "National Park Service", "website": "https://www.nps.gov/findapark/index.htm", "city": "Philadelphia", "state": "PA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Landscape Architecture", "details": "Organization and contact information:\nMark Alexander - 267-746-0789\nActing Associate Regional Director for Planning, Facilities and Conservation Assistance / Division Chief for Major Construction and Transportation\nNational Park Service - Interior Region 1\n1234 Market Street, 20th Floor\nPhiladelphia, PA  19107\n\nBrief description of the externship opportunity, if known at this time\nThis externship offers structured mentorship, immersive site visits, and opportunities to engage with landscape architects across diverse NPS roles. The participant will gain hands-on conceptual design experience, professional development, site visits to local NPS sites, and a broad understanding of career pathways within the National Park Service.\n\nDiscipline(s) and academic program(s) sought\nLandscape Architecture\n\nExternship dates and duration\nJan. 4 - 15\n\nLocation and work format (in-person, hybrid, or virtual)\nIn-person\nSite visits may require access to personal vehicle or use of public transportation (office is conveniently located in Center City Philadelphia in close proximity to public transportation).\nBring clothing/preparation for indoor office work and outdoor site visits.\nBring personal laptop computer with software suitable for concept design preparation (NPS will not provide computer).\nPotential for future option to shadow actual sites in and around the Charlottesville, VA under active construction.\n\nCompensation information, if applicable\nNone\n\nLearning objectives, responsibilities, and professional development opportunities available to students\nThe NPS externship will provide structured mentorship,\none  on  one job shadowing with a range of landscape architects in diverse roles, and guided visits to local sites. The participant will gain practical experience through direct involvement in conceptual design work on actual NPS sites, attendance at project meetings, and guided learning sessions on the history of the NPS landscape architecture profession, including past, present, and future initiatives. The participant will also gain a firm understanding of the complete project lifecycle from planning through construction.", "weeks": [1, 2], "rateNum": 0}, {"id": "41", "employer": "Omnes", "website": "www.omnes.studio", "city": "Easton", "state": "PA", "format": "Hybrid", "hybrid": "Externs will have the opportunity to join the studio in-person (with housing provided in downtown Easton, PA) or remotely, depending on their preference.", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Landscape Architecture", "details": "Externs will join the studio's active projects and may gain exposure to a range of conceptual design, planning, and/or construction processes. Participation may include working on illustrative graphics, renderings, data visualizations, and planting plans; researching materials and products; and participating in public engagement meetings or charrettes with clients, collaborators, and community members.", "weeks": [2], "rateNum": 20.0}, {"id": "42", "employer": "Page & Turnbull", "website": "page-turnbull.com", "city": "San Francisco", "state": "CA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$31.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architectural History,Architecture", "grad": "Architectural History,Architecture", "details": "Page & Turnbull is a legacy Preservation Architecture and Planning firm headquartered in San Francisco, CA. We do a wide variety of projects at a wide variety of scales. Extern work typically includes assisting with site, building, and project documentation, research, and small drafting or writing tasks.", "weeks": [2], "rateNum": 31.0}, {"id": "43", "employer": "Perkins Eastman", "website": "www.perkinseastman.com", "city": "Washington", "state": "DC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architectural History,Architecture,Urban + Environmental Planning", "grad": "Architectural History,Architecture,Landscape Architecture,Urban + Environmental Planning", "details": "no details provided", "weeks": [2], "rateNum": 0}, {"id": "44", "employer": "Perkins&Will", "website": "Perkinswill.com", "city": "Charlotte or Durham", "state": "NC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture,Landscape Architecture,Urban + Environmental Planning", "details": "We would be delighted to host a student in either of our North Carolina offices. Pending their skill level and our workload at that time, we could offer either paid or shadowing experiences. This is highly dependent on aligning the work with their skills.", "weeks": [1, 2], "rateNum": 0}, {"id": "45", "employer": "Perkins&Will", "website": "https://perkinswill.com/", "city": "Chicago", "state": "IL", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Architecture", "details": "no details provided", "weeks": [2], "rateNum": 0}, {"id": "46", "employer": "Perkins&Will", "website": "https://perkinswill.com/", "city": "Washington", "state": "DC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "no details provided", "weeks": [2], "rateNum": 0}, {"id": "47", "employer": "Reed Hilderbrand", "website": "https://www.reedhilderbrand.com/", "city": "Cambridge", "state": "MA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$22.50", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Landscape Architecture", "details": "We are seeking externship candidates that possess a proactive and collaborative approach to their work, demonstrate the capacity to think critically and conceptually, possess strong graphic and verbal communication abilities, and the capacity to use 3D modeling as both a tool for spatial study and presentations. Externs may participate in design study, research, graphic production, and collaboration with design staff.", "weeks": [1, 2], "rateNum": 22.5}, {"id": "48", "employer": "Reed Hilderbrand", "website": "https://www.reedhilderbrand.com/", "city": "New Haven", "state": "CT", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$22.50", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture,Landscape Architecture", "details": "During the week-long externship, students will have the opportunity to experience different aspects of our practice. Students will spend time with two project teams working at different phases or on different types of projects, participating in team meetings, research, and graphic production as appropriate. They may also have the opportunity to work with the marketing team on a competition or new project pursuit.\n\nExterns will work in a small cohort alongside a Spring intern or another extern, with an introduction to our office workflow, graphic standards, and research processes. A tour of selected local built projects will also be provided.", "weeks": [2], "rateNum": 22.5}, {"id": "49", "employer": "RELM", "website": "www.relmstudio.com", "city": "Los Angeles", "state": "CA", "format": "Hybrid", "hybrid": "Monday - Thursday 8:30am - 6:30pm (in-person), Friday 8:30am - 12:30pm (remote)", "opportunity": "Paid Externship (work produced)", "rate": "$22.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Landscape Architecture,Urban + Environmental Planning", "details": "Landscape architecture externship job duties include but are not limited to: preparation and coordination of landscape design presentation materials; developing innovative and highly creative landscape design solutions in response to challenges posed by project's scope, via hand sketches, diagrams, 3D studies, project renderings, and AutoCAD-based drawings; preparation of construction drawings and materials/planting research.", "weeks": [1, 2], "rateNum": 22.0}, {"id": "50", "employer": "Rosney Co. Architects", "website": "www.rosneyarchitects.com", "city": "Charlottesville", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architectural History,Architecture", "grad": "Architectural History,Architecture", "details": "Externs work directly on active project drawings rather than being assigned busywork. They also accompany our partners or Project Managers on site visits, seeing firsthand how design decisions translate into construction and how architects communicate with builders, clients, and consultants. Because our studio is small the externs will work closely with the partners and staff throughout the experience so that they can gain a genuine sense of the day-to-day rhythm of running a custom residential practice.", "weeks": [2], "rateNum": 20.0}, {"id": "51", "employer": "Ruhl Jahnes Architects", "website": "www.ruhljahnes.com", "city": "Watertown", "state": "MA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 4-8, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "We are a small practice, with a focus on modern single family residential.  As is true in many offices of our size, we all have our hands in many aspects of design, marketing and business management.  We envision externs listening on staffing/business and client meetings, visiting an active job site, chatting with staff about their career paths and licensing experiences.  Ideal extern duration would be about 3 days.", "weeks": [1], "rateNum": 0}, {"id": "52", "employer": "Sasaki Associates, Inc.", "website": "https://www.sasaki.com/", "city": "Boston", "state": "MA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$26.00", "dates": "January 4-8 OR 11-15, 2027", "shadowing": "Upon externship employment offer, student chooses which week they prefer", "ug": "No Undergraduate Students", "grad": "Landscape Architecture", "details": "During the externship, the student will participate in one or two projects under the guidance of another landscape architect. Project types would include but not limited to urban design/campus masterplans, parks and open spaces concept design, design development and construction documentations. Students are encourage to express what kind of projects they're interested in and we will match it with our project availability.", "weeks": [1, 2], "rateNum": 26.0}, {"id": "53", "employer": "Sasaki Associates, Inc.", "website": "https://www.sasaki.com/", "city": "Denver or New York", "state": "CO or NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$26.00", "dates": "January 4-8 OR 11-15, 2027", "shadowing": "Upon externship employment offer, student chooses which site and week they prefer", "ug": "No Undergraduate Students", "grad": "Landscape Architecture", "details": "During the externship, the student will participate in one or two projects under the guidance of another landscape architect. Project types would include but not limited to urban design/campus masterplans, parks and open spaces concept design, design development and construction documentations. Students are encourage to express what kind of projects they're interested in and we will match it with our project availability.", "weeks": [1, 2], "rateNum": 26.0}, {"id": "54", "employer": "Schulhof Rashidi Architects", "website": "www.schulhfor-rashidi.com", "city": "New York", "state": "NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "The SRA externship involves fully immersion into the operations of a small New York City firm, including attending staff meetings, project team meetings and client/ consultant meetings. Activities will include production for project under way, including CD production, model making, 3D studies and rendering production.", "weeks": [1, 2], "rateNum": 20.0}, {"id": "55", "employer": "SPG Architects", "website": "spgarchitects.com", "city": "New York", "state": "NY", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "Produce presentation drawings and Images for current projects\nReview Current SPG Projects\nReview SPG Drawing Standards\nReview Career Goals with Principal\nGain perspective on practice from SPG team", "weeks": [1, 2], "rateNum": 20.0}, {"id": "56", "employer": "Stephen Grotz Architecture PLLC", "website": "https://www.stephengrotzarchitecture.com/", "city": "Richmond", "state": "VA", "format": "Hybrid", "hybrid": "Based out of Richmond, VA with option to come to visit during one work day in the office to meet the team", "opportunity": "Paid Externship (work produced)", "rate": "$19.00", "dates": "January 4-8, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "You will be assisting with some marketing and most likely on site visits in central VA if local.  Also assist with basic drafting of residential homes.", "weeks": [1], "rateNum": 19.0}, {"id": "57", "employer": "STOSS LANDSCAPE URBANISM", "website": "https://www.stoss.net/", "city": "Boston", "state": "MA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Architecture,Landscape Architecture,Urban + Environmental Planning", "details": "STOSS welcomes students interested in Landscape Design and Urbanism to join our team for a short-term externship experience. The externship provides an opportunity to learn about the practice of landscape architecture and urbanism through observation and shadowing across a variety of projects, including parks and open spaces; urban and campus design; ecological and resiliency planning; municipal and regional strategies; multi-scale landscape infrastructure; development and remediation projects; and furnishings and exhibitions.\n\nThis is an opportunity to gain insight into the day-to-day work of a landscape architecture and urban design practice, learn about different project phases and workflows, and engage with STOSS designers, project managers, and senior staff. Externs will primarily observe and shadow project teams and participate in office activities, meetings, presentations, and discussions. The externship is intended as a learning and observational experience and will not involve producing project work or deliverables.\n\nThis externship will be conducted in person at either our Boston or LA office.", "weeks": [2], "rateNum": 0}, {"id": "58", "employer": "Studio AKA", "website": "www.studio-aka.com", "city": "Washington", "state": "DC", "format": "Hybrid", "hybrid": "Can be flexible - all in person, some in person some remote, all remote", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Landscape Architecture", "details": "Our externs have provided excellent support creating presentations, marketing materials, visualizations, and maintenance manuals. They have attended project meetings and been included as a team member for the duration of the externship.", "weeks": [1, 2], "rateNum": 20.0}, {"id": "59", "employer": "Timmons Group", "website": "https://www.timmons.com/", "city": "Charlottesville", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Urban + Environmental Planning", "grad": "Landscape Architecture,Urban + Environmental Planning", "details": "My name is Thomas Ruff and I am working with Cheval Oldaker for Timmons Group in our Charlottesville office.  My work focuses on transportation planning and urban design elements, while Cheval is focused on landscape architecture.  We could potentially host a student interested in both areas, or spread the time they are here between the 2 of us.  We are open to multiple options and welcome a future discussion.  Thank you!", "weeks": [2], "rateNum": 0}, {"id": "60", "employer": "Utile, Inc.", "website": "utiledesign.com", "city": "Boston", "state": "MA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$27.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "No Undergraduate Students", "grad": "Architecture", "details": "Utile is a research-driven design and planning firm that tackles complex spatial problems from the scale of the city to the scale of the room. Our A-School externs have worked on all types and phases of projects, and typically join one project team for the duration of their externship. Strong graphics and model-making skills are desired.", "weeks": [1, 2], "rateNum": 27.0}, {"id": "61", "employer": "VIA Design", "website": "www.viadesignarchitects.com", "city": "Norfolk", "state": "VA", "format": "In-Person", "hybrid": "n/a", "opportunity": "Paid Externship (work produced)", "rate": "$22.00", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architectural History,Architecture,Urban + Environmental Planning", "grad": "Architectural History,Architecture,Urban + Environmental Planning,PhD in the Constructed Environment", "details": "At VIA, our paid internship provides direct, hands-on experience on real, active projects. Working alongside our multidisciplinary team, across all experience levels, you will gain exposure to everything from design work to construction administration. As an active member of our team, you will contribute to project workflows, join team meetings, and participate in local networking and community volunteer events. Throughout the program, our goal is for you to gain technical skills and practical industry experience to take back with you.\n\nHoused in an award-winning historic building in Downtown Norfolk, our studio offers a walkable environment steps from the light rail, local dining, and the Elizabeth River Trail. Recognized as a Top Virginia Employer for Interns, VIA is committed to providing meaningful, real-world experience that helps launch the next generation of design professionals.", "weeks": [1, 2], "rateNum": 22.0}, {"id": "62", "employer": "Washington Metropolitan Area Transit Authority (Metro)", "website": "https://www.wmata.com/", "city": "Washington", "state": "DC", "format": "Hybrid", "hybrid": "Typically in office Monday - Thursday and remote on Friday.", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "Other, Shadowing Only", "shadowing": "Externship would be for one week (5 days) either 1/4 OR 1/11. We are flexible on which week the externship would take place and will work with the student to schedule.", "ug": "Urban + Environmental Planning", "grad": "Urban + Environmental Planning,PhD in the Constructed Environment", "details": "The externship is co-hosted by alumni in Metro's Station Planning team and the Power Department, with opportunities for informational interviews with staff across the agency.", "weeks": [1, 2], "rateNum": 0}, {"id": "63", "employer": "WEST WORKSHOP", "website": "www.westworkshop.com", "city": "Raleigh", "state": "NC", "format": "Hybrid", "hybrid": "Our staff works in-person and remotely, depending on the day (mostly in-person).  The externship will follow that same rhythm.", "opportunity": "Paid Externship (work produced)", "rate": "$20.00", "dates": "January 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "no details provided", "weeks": [2], "rateNum": 20.0}, {"id": "64", "employer": "ZGF Architects", "website": "https://www.zgf.com", "city": "Washington", "state": "DC", "format": "In-Person", "hybrid": "n/a", "opportunity": "Shadowing Externship (no work produced)", "rate": "n/a", "dates": "January 4-8 & 11-15, 2027", "shadowing": "", "ug": "Architecture", "grad": "Architecture", "details": "This externship offers students an opportunity to experience ZGF's collaborative design culture and holistic multidisciplinary approach to architecture. Participants will observe project team meetings, learn about design and BIM workflows, and gain exposure to how our project teams work together to create innovative, high-performance environments in each phase. Students are encouraged to ask questions, engage with team members, and explore potential career paths within the design industry.", "weeks": [1, 2], "rateNum": 0}];
+const PROGRAMS=["Architecture","Architectural History","Landscape Architecture","Urban + Environmental Planning","PhD in the Constructed Environment"];
+const byId=Object.fromEntries(DATA.map(d=>[d.id,d]));
+const split=s=>(s&&s!=="No Undergraduate Students")?s.split(",").map(x=>x.trim()):[];
+DATA.forEach(d=>{d._ug=split(d.ug);d._gr=split(d.grad);d._paid=d.opportunity.startsWith("Paid");
+  d._text=[d.id,d.employer,d.website,d.city,d.state,d.format,d.hybrid,d.opportunity,d.rate,d.dates,d.shadowing,d.ug,d.grad,d.details].join(" ").toLowerCase();});
+const STATES=[...new Set(DATA.map(d=>d.state))].sort();
+
+const st={q:"",level:"any",programs:new Set(),opp:new Set(),weeks:new Set(),fmt:new Set(),states:new Set(),tags:new Set(),onlyMine:false,sort:"id",sel:null,panel:"none",drop:null,addingTag:false,showHidden:false};
+let S={mine:[],tags:{},notes:{},hidden:[],target:null};
+try{const v=localStorage.getItem("ext2027-v2"); if(v) S={...S,...JSON.parse(v)}; else {const o=localStorage.getItem("ext2027-mylist"); if(o) S.mine=JSON.parse(o);}}catch(e){}
+S.mine=(S.mine||[]).filter(id=>byId[id]); S.hidden=(S.hidden||[]).filter(id=>byId[id]); S.tags=S.tags||{}; S.notes=S.notes||{};
+const save=()=>{try{localStorage.setItem("ext2027-v2",JSON.stringify(S));}catch(e){}};
+const tagsOf=id=>S.tags[id]||[];
+const allTags=()=>[...new Set(Object.values(S.tags).flat())].sort((a,b)=>a.localeCompare(b,undefined,{sensitivity:"base"}));
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const href=w=>(!w||w==="--")?null:(/^https?:\/\//i.test(w)?w:"https://"+w);
+const $=id=>document.getElementById(id);
+const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>';
+
+function eligible(d,p){ if(st.level==="ug") return d._ug.includes(p); if(st.level==="grad") return d._gr.includes(p); return d._ug.includes(p)||d._gr.includes(p); }
+function passes(d,skip){
+  if(S.hidden.includes(d.id)) return false;
+  if(st.q){ const extra=(tagsOf(d.id).join(" ")+" "+(S.notes[d.id]||"")).toLowerCase(); if(!st.q.split(/\s+/).every(t=>d._text.includes(t)||extra.includes(t))) return false; }
+  if(skip!=="programs"){ if(st.programs.size){ if(![...st.programs].some(p=>eligible(d,p))) return false; }
+    else if(st.level==="ug"&&!d._ug.length) return false; else if(st.level==="grad"&&!d._gr.length) return false; }
+  if(skip!=="opp"&&st.opp.size&&!st.opp.has(d._paid?"paid":"shadow")) return false;
+  if(skip!=="weeks"&&st.weeks.size&&![...st.weeks].some(w=>d.weeks.includes(w))) return false;
+  if(skip!=="fmt"&&st.fmt.size&&!st.fmt.has(d.format)) return false;
+  if(skip!=="states"&&st.states.size&&!st.states.has(d.state)) return false;
+  if(skip!=="tags"&&st.tags.size&&![...st.tags].some(t=>tagsOf(d.id).includes(t))) return false;
+  if(st.onlyMine&&!S.mine.includes(d.id)) return false;
+  return true;
+}
+const anyFilter=()=>st.level!=="any"||st.programs.size||st.opp.size||st.weeks.size||st.fmt.size||st.states.size||st.tags.size||st.onlyMine||st.q;
+
+/* ---------- chips ---------- */
+function renderChips(){
+  [...st.tags].forEach(t=>{if(!allTags().includes(t)) st.tags.delete(t);});
+  const cnt=(skip,fn)=>DATA.filter(d=>passes(d,skip)&&fn(d)).length;
+  const tog=(group,val,label)=>`<button class="chip" data-tog="${group}" data-val="${esc(val)}" aria-pressed="${st[group].has(val)}">${esc(label)}</button>`;
+  const summary=(set,label)=>set.size?`${label}: ${[...set].join(", ")}`:label;
+  const dd=(key,label,set,body)=>`<div class="dd"><button class="chip${set.size?" on":""}" data-drop="${key}" aria-expanded="${st.drop===key}" aria-haspopup="true">${esc(summary(set,label))}<span class="caret" aria-hidden="true">▾</span></button>${st.drop===key?`<div class="pop" role="dialog" aria-label="${esc(label)} filter">${body}</div>`:""}</div>`;
+  const opts=(group,list,fn,cols)=>`<div class="${cols?"grid2":""}">`+list.map(v=>`<label class="opt"><input type="checkbox" data-g="${group}" value="${esc(v)}" ${st[group].has(v)?"checked":""}><span>${esc(v)}</span><span class="n">${fn(v)}</span></label>`).join("")+`</div>`;
+  const foot=g=>`<div class="foot"><button class="linkbtn" data-clear="${g}">Clear</button><button class="btn-pill" data-done>Done</button></div>`;
+  let h=`<div class="seg" role="group" aria-label="Student level">${[["any","Any"],["ug","Undergrad"],["grad","Grad"]].map(([v,l])=>`<button data-level="${v}" aria-pressed="${st.level===v}">${l}</button>`).join("")}</div>`;
+  h+=dd("programs","Program",st.programs,`<h3>Eligible program</h3>`+opts("programs",PROGRAMS,p=>cnt("programs",d=>eligible(d,p)))+foot("programs"));
+  h+=`<span class="sep" aria-hidden="true"></span>`+tog("opp","paid","Paid")+tog("opp","shadow","Shadowing");
+  h+=`<span class="sep" aria-hidden="true"></span>`+tog("weeks",1,"Jan 4–8")+tog("weeks",2,"Jan 11–15");
+  h+=`<span class="sep" aria-hidden="true"></span>`+tog("fmt","In-Person","In-Person")+tog("fmt","Hybrid","Hybrid");
+  h+=`<span class="sep" aria-hidden="true"></span>`+dd("states","State",st.states,`<h3>State</h3>`+opts("states",STATES,s=>cnt("states",d=>d.state===s),true)+foot("states"));
+  h+=dd("tags","My tags",st.tags,`<h3>My tags</h3>`+(allTags().length?opts("tags",allTags(),t=>cnt("tags",d=>tagsOf(d.id).includes(t))):`<p class="hint">Add tags to firms from their details panel, and they'll show up here.</p>`)+foot("tags"));
+  h+=`<button class="chip" data-starred aria-pressed="${st.onlyMine}">Starred only</button>`;
+  h+=`<label class="sr" for="sort">Sort</label><select class="sortsel" id="sort"><option value="id"${st.sort==="id"?" selected":""}>List order</option><option value="name"${st.sort==="name"?" selected":""}>Firm A–Z</option><option value="rate"${st.sort==="rate"?" selected":""}>Highest rate</option></select>`;
+  if(anyFilter()) h+=`<button class="linkbtn" id="clearAll">Clear all</button>`;
+  const shown=DATA.filter(d=>passes(d)).length;
+  h+=`<span class="meta">Showing <b>${shown}</b> of 64${S.hidden.length?` (${S.hidden.length} hidden)`:""}</span>`;
+  const C=$("chips"); const sx=C.scrollLeft; C.innerHTML=h; C.scrollLeft=sx;
+  C.querySelectorAll("[data-level]").forEach(b=>b.onclick=()=>{st.level=b.dataset.level;update();refocus(`[data-level="${st.level}"]`);});
+  C.querySelectorAll("[data-tog]").forEach(b=>b.onclick=()=>{const g=b.dataset.tog,v=g==="weeks"?+b.dataset.val:b.dataset.val; st[g].has(v)?st[g].delete(v):st[g].add(v); update(); refocus(`[data-tog="${g}"][data-val="${b.dataset.val}"]`);});
+  C.querySelectorAll("[data-drop]").forEach(b=>b.onclick=e=>{e.stopPropagation(); st.drop=st.drop===b.dataset.drop?null:b.dataset.drop; renderChips(); const f=C.querySelector(".pop input,.pop button"); (st.drop&&f)?f.focus():refocus(`[data-drop="${b.dataset.drop}"]`);});
+  C.querySelectorAll("input[data-g]").forEach(i=>i.onchange=()=>{const g=i.dataset.g; i.checked?st[g].add(i.value):st[g].delete(i.value); update(); refocus(`input[data-g="${g}"][value="${CSS.escape(i.value)}"]`);});
+  C.querySelectorAll("[data-clear]").forEach(b=>b.onclick=()=>{st[b.dataset.clear].clear(); update();});
+  C.querySelectorAll("[data-done]").forEach(b=>b.onclick=()=>{const k=st.drop; st.drop=null; renderChips(); refocus(`[data-drop="${k}"]`);});
+  C.querySelector("[data-starred]").onclick=()=>{st.onlyMine=!st.onlyMine;update();refocus("[data-starred]");};
+  $("sort").onchange=e=>{st.sort=e.target.value;renderList();};
+  const ca=$("clearAll"); if(ca) ca.onclick=()=>{["programs","opp","weeks","fmt","states","tags"].forEach(k=>st[k].clear()); st.level="any"; st.onlyMine=false; st.q=""; $("q").value=""; st.drop=null; update(); $("q").focus();};
+  C.querySelectorAll(".pop").forEach(p=>p.onclick=e=>e.stopPropagation());
+}
+document.addEventListener("click",e=>{ if(st.drop && !e.target.closest(".dd")){ st.drop=null; renderChips(); } });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ if(st.drop){const k=st.drop; st.drop=null; renderChips(); refocus(`[data-drop="${k}"]`);} else if(st.panel!=="none"){ closePanel(); } } });
+
+/* ---------- list ---------- */
+function renderList(){
+  let rows=DATA.filter(d=>passes(d));
+  if(st.sort==="name") rows.sort((a,b)=>a.employer.localeCompare(b.employer,undefined,{sensitivity:"base"})||a.id.localeCompare(b.id));
+  if(st.sort==="rate") rows.sort((a,b)=>b.rateNum-a.rateNum||a.id.localeCompare(b.id));
+  const L=$("list");
+  L.innerHTML=!rows.length?`<li class="empty">No postings match these filters. Turn one off, or use Clear all.</li>`:rows.map(d=>{
+    const on=S.mine.includes(d.id), tg=tagsOf(d.id), nt=(S.notes[d.id]||"").trim();
+    return `<li class="row${st.sel===d.id&&st.panel==="detail"?" sel":""}" data-row="${d.id}">
+      <button class="star" data-star="${d.id}" aria-pressed="${on}" aria-label="${on?"Unstar":"Star"} ${esc(d.employer)}">${STAR}</button>
+      <button class="rowmain" data-select="${d.id}" aria-label="${esc(d.employer)}, ${esc(d.city)}, ${esc(d.state)}. Show details">
+        <span class="nm">${esc(d.employer)}</span>
+        <span class="sub"><span>${esc(d.city)}, ${esc(d.state)}</span><span>${esc(d.dates)}</span><span>${esc(d.format)}</span></span>
+        ${tg.length||nt?`<span class="mine">${tg.map(t=>`<span class="mini">${esc(t)}</span>`).join("")}${nt?`<span class="mini note">Note</span>`:""}</span>`:""}
+      </button>
+      <span class="opp ${d._paid?"paid":"shadow"}">${esc(d.opportunity)}</span>
+      <span class="rate${d.rate.length>10?" long":""}">${esc(d.rate)}</span>
+    </li>`;}).join("");
+  L.querySelectorAll("[data-star]").forEach(b=>b.onclick=e=>{e.stopPropagation(); toggleMine(b.dataset.star); refocus(`[data-star="${b.dataset.star}"]`);});
+  L.querySelectorAll("[data-select]").forEach(b=>b.onclick=e=>{e.stopPropagation(); openDetail(b.dataset.select);});
+  L.querySelectorAll("[data-row]").forEach(r=>r.onclick=()=>openDetail(r.dataset.row));
+  renderHidden();
+}
+function renderHidden(){
+  const H=$("hiddenSec"); if(!S.hidden.length){H.innerHTML="";return;}
+  H.innerHTML=`<button class="ghost" id="toggleHidden" aria-expanded="${st.showHidden}">${st.showHidden?"Hide":"Show"} hidden firms (${S.hidden.length})</button>`+
+    (st.showHidden?`<ul>${S.hidden.map(id=>{const d=byId[id];return `<li><span><b>${esc(d.employer)}</b> #${d.id}, ${esc(d.city)}, ${esc(d.state)}</span><button class="ghost" data-unhide="${id}">Unhide</button></li>`;}).join("")}</ul>`:"");
+  $("toggleHidden").onclick=()=>{st.showHidden=!st.showHidden;renderHidden();refocus("#toggleHidden");};
+  H.querySelectorAll("[data-unhide]").forEach(b=>b.onclick=()=>{S.hidden=S.hidden.filter(x=>x!==b.dataset.unhide);save();update();toast(`${byId[b.dataset.unhide].employer} is back in the list`);refocus("#toggleHidden");});
+}
+
+/* ---------- panel ---------- */
+function setSplit(){ $("main").classList.toggle("split",st.panel!=="none"); $("openList").setAttribute("aria-pressed",st.panel==="mine"); }
+function openDetail(id){ st.sel=id; st.panel="detail"; st.addingTag=false; setSplit(); renderList(); renderPanel(); $("panel").scrollTop=0; const t=$("panel").querySelector("h2"); t&&t.focus({preventScroll:true}); }
+function closePanel(){ const back=st.panel==="detail"?st.sel:null; st.panel="none"; setSplit(); renderList(); $("panel").innerHTML=""; back?refocus(`[data-select="${back}"]`):$("openList").focus(); }
+$("openList").onclick=()=>{ if(st.panel==="mine"){ st.sel&&!S.hidden.includes(st.sel)?openDetail(st.sel):closePanel(); return; } st.panel="mine"; setSplit(); renderList(); renderPanel(); $("panel").scrollTop=0; const h=$("panel").querySelector("h2"); h&&h.focus({preventScroll:true}); };
+function descHTML(t){ if(t.trim()==="no details provided") return `<p class="nd">no details provided</p>`; return t.split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,"<br>")}</p>`).join(""); }
+const progChips=s=>s==="No Undergraduate Students"?`<span class="pnone">${esc(s)}</span>`:`<span class="pchips">${s.split(",").map(x=>`<span class="pchip">${esc(x)}</span>`).join("")}</span>`;
+function renderPanel(){
+  const P=$("panel");
+  if(st.panel==="detail"){
+    const d=byId[st.sel]; if(!d){closePanel();return;}
+    const on=S.mine.includes(d.id), w=href(d.website), tg=tagsOf(d.id);
+    const tiles=[["Hourly Rate",esc(d.rate),d.rate.length>10?"":"big"],["Externship Dates",esc(d.dates)],["Opportunity",esc(d.opportunity)],["Format",esc(d.format)]];
+    let extra="";
+    if(d.hybrid&&d.hybrid!=="n/a") extra+=`<div class="tile wide"><div class="k">Hybrid Details</div><div class="v" style="font-weight:500">${esc(d.hybrid)}</div></div>`;
+    if(d.shadowing) extra+=`<div class="tile wide"><div class="k">Shadowing Details</div><div class="v" style="font-weight:500">${esc(d.shadowing)}</div></div>`;
+    P.innerHTML=`<div class="strip"><button class="closep" id="closeP" aria-label="Close details">×</button></div>
+      <div class="pbody">
+        <div class="ptitle"><div class="tb"><div class="pid">#${d.id}</div><h2 tabindex="-1">${esc(d.employer)}</h2></div>
+          <button class="pstar" id="pStar" aria-pressed="${on}">${on?"★ Starred":"☆ Star"}</button></div>
+        <div class="ploc">${esc(d.city)}, ${esc(d.state)}${w?` &nbsp; <a href="${esc(w)}" target="_blank" rel="noopener">${esc(d.website)}</a>`:` &nbsp; Website: ${esc(d.website)}`}</div>
+        <div class="tiles">${tiles.map(([k,v,c])=>`<div class="tile"><div class="k">${k}</div><div class="v ${c||""}">${v}</div></div>`).join("")}${extra}</div>
+        <div class="sec"><h3>Eligibility</h3><div class="elig"><span class="k">Undergraduate Programs</span>${progChips(d.ug)}<span class="k">Graduate Programs</span>${progChips(d.grad)}</div></div>
+        <div class="sec"><h3>My tags</h3><div class="tagrow" id="tagrow">${tg.map(t=>`<span class="tag">${esc(t)}<button data-untag="${esc(t)}" aria-label="Remove tag ${esc(t)}">×</button></span>`).join("")}
+          ${st.addingTag?`<input class="taginput" id="tagIn" list="taglist" placeholder="Type a tag, press Enter" aria-label="New tag">`:`<button class="addtag" id="addTag">+ Add tag</button>`}</div></div>
+        <div class="sec"><h3><label for="notesIn">My notes</label></h3><textarea class="notes" id="notesIn" placeholder="Anything you want to remember about this firm">${esc(S.notes[d.id]||"")}</textarea><div class="saved" id="saved"></div></div>
+        <div class="sec"><h3>Externship Details</h3><div class="desc">${descHTML(d.details)}</div></div>
+        <div class="pfoot"><button class="hidebtn" id="hideF">Hide this firm</button></div>
+      </div>`;
+    $("closeP").onclick=closePanel;
+    $("pStar").onclick=()=>{toggleMine(d.id); refocus("#pStar");};
+    $("hideF").onclick=()=>hideFirm(d.id);
+    const at=$("addTag"); if(at) at.onclick=()=>{st.addingTag=true; renderPanel(); $("tagIn").focus();};
+    const ti=$("tagIn"); if(ti){
+      const commit=()=>{const v=ti.value.trim().replace(/\s+/g," ").slice(0,40); if(v&&!tagsOf(d.id).some(x=>x.toLowerCase()===v.toLowerCase())){S.tags[d.id]=[...tagsOf(d.id),v];save();} st.addingTag=false; renderChips(); renderList(); renderPanel(); refocus("#addTag");};
+      ti.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();commit();} if(e.key==="Escape"){e.stopPropagation();st.addingTag=false;renderPanel();refocus("#addTag");}};
+      ti.onblur=()=>setTimeout(()=>{if(st.addingTag&&document.activeElement!==ti) commit();},0);
+    }
+    P.querySelectorAll("[data-untag]").forEach(b=>b.onclick=()=>{S.tags[d.id]=tagsOf(d.id).filter(x=>x!==b.dataset.untag); if(!S.tags[d.id].length) delete S.tags[d.id]; save(); renderChips(); renderList(); renderPanel(); refocus("#addTag");});
+    let tm; $("notesIn").oninput=e=>{const v=e.target.value; if(v.trim()) S.notes[d.id]=v; else delete S.notes[d.id]; clearTimeout(tm); tm=setTimeout(()=>{save(); $("saved").textContent="Saved"; renderList();},350);};
+    $("taglist").innerHTML=allTags().map(t=>`<option value="${esc(t)}">`).join("");
+  } else if(st.panel==="mine"){
+    const n=S.mine.length, t=S.target;
+    const back=st.sel&&byId[st.sel]&&!S.hidden.includes(st.sel)?`<button class="backlink" id="backD">Back to ${esc(byId[st.sel].employer)}</button>`:"";
+    P.innerHTML=`<div class="strip"><button class="closep" id="closeP" aria-label="Close my list">×</button></div>
+      <div class="mlhead">${back}<h2 tabindex="-1">My list</h2><p class="sub">Drag firms into your preferred order.</p>
+        <div class="target"><b id="tcount">${n}${t?` of ${t}`:""} firm${n===1&&!t?"":"s"}</b><label>Target <input id="targetIn" type="number" min="1" max="64" inputmode="numeric" value="${t||""}" placeholder="15"></label></div>
+        ${t?`<div class="progress${n>=t?" done":""}"><span style="width:${Math.min(100,n/t*100)}%"></span></div>`:""}</div>
+      ${n?`<ol class="ml" id="ml">${S.mine.map((id,i)=>{const d=byId[id],tg=tagsOf(id);return `<li data-id="${id}"><span class="rk" aria-hidden="true">${i+1}</span><span class="grip" tabindex="0" role="button" aria-label="${esc(d.employer)}, rank ${i+1} of ${n}. Drag to reorder, or use arrow keys">⠿</span>
+        <span class="nmw"><b>${esc(d.employer)}</b><small>${esc(d.city)}, ${esc(d.state)} &nbsp; ${esc(d.rate)}</small>${tg.length?`<small>${tg.map(esc).join(", ")}</small>`:""}</span>
+        <button class="rm" data-rm="${id}" aria-label="Remove ${esc(d.employer)} from my list">×</button></li>`;}).join("")}</ol>`:`<p class="mlempty">Star firms in the list to add them here.</p>`}
+      <div class="mlactions"><button class="btn-primary" id="copyList">Copy list</button><button class="ghost" id="clearList">Clear all</button></div>
+      <div id="fallbackBox" style="padding:0 22px 20px"></div>`;
+    $("closeP").onclick=closePanel;
+    const bd=$("backD"); if(bd) bd.onclick=()=>openDetail(st.sel);
+    $("targetIn").oninput=e=>{const v=parseInt(e.target.value,10); S.target=(v>0&&v<=64)?v:null; save(); renderCount(); const pos=e.target.selectionStart; renderPanel(); const ti=$("targetIn"); ti.focus(); try{ti.setSelectionRange(pos,pos);}catch(_){}};
+    P.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{toggleMine(b.dataset.rm); refocus("#copyList");});
+    P.querySelectorAll(".ml li").forEach(li=>li.addEventListener("pointerdown",startDrag));
+    P.querySelectorAll(".ml .grip").forEach(g=>g.onkeydown=e=>{ if(e.key!=="ArrowUp"&&e.key!=="ArrowDown") return; e.preventDefault(); const id=g.parentElement.dataset.id,i=S.mine.indexOf(id),j=i+(e.key==="ArrowUp"?-1:1); if(j<0||j>=S.mine.length) return; moveItem(i,j); refocus(`.ml li[data-id="${id}"] .grip`);});
+    $("copyList").onclick=copyList;
+    setupClear();
+  }
+}
+function renderCount(){ const n=S.mine.length,t=S.target; $("mlc").textContent=t?`${n} of ${t}`:n; }
+function moveItem(f,t){const [x]=S.mine.splice(f,1); S.mine.splice(t,0,x); save(); renderPanel();}
+function startDrag(e){
+  if(e.target.closest("button")) return;
+  if(e.pointerType!=="mouse"&&!e.target.closest(".grip")) return;
+  if(e.pointerType==="mouse"&&e.button!==0) return;
+  e.preventDefault();
+  const li=e.currentTarget, list=li.parentElement, items=[...list.children], from=items.indexOf(li);
+  const rects=items.map(x=>x.getBoundingClientRect()), h=rects[from].height+7, scroller=$("panel");
+  const startY=e.clientY, startScroll=scroller.scrollTop; let to=from,lastY=e.clientY,raf;
+  li.classList.add("dragging"); document.body.classList.add("is-dragging"); items.forEach(x=>{if(x!==li) x.classList.add("settle");});
+  try{li.setPointerCapture(e.pointerId);}catch(_){}
+  const layout=()=>{const dy=lastY-startY+(scroller.scrollTop-startScroll); li.style.transform=`translateY(${dy}px)`;
+    const c=rects[from].top+rects[from].height/2+dy; to=from;
+    for(let k=0;k<items.length;k++){ if(k===from) continue; const m=rects[k].top+rects[k].height/2; if(k>from&&c>m) to=Math.max(to,k); if(k<from&&c<m) to=Math.min(to,k); }
+    items.forEach((x,k)=>{ if(k===from) return; let s=0; if(from<to&&k>from&&k<=to) s=-h; if(to<from&&k>=to&&k<from) s=h; x.style.transform=s?`translateY(${s}px)`:""; });};
+  const tick=()=>{const r=scroller.getBoundingClientRect(); if(lastY<r.top+50) scroller.scrollTop-=8; else if(lastY>r.bottom-50) scroller.scrollTop+=8; layout(); raf=requestAnimationFrame(tick);};
+  raf=requestAnimationFrame(tick);
+  const move=ev=>{lastY=ev.clientY;};
+  const up=()=>{cancelAnimationFrame(raf); li.removeEventListener("pointermove",move); li.removeEventListener("pointerup",up); li.removeEventListener("pointercancel",up);
+    document.body.classList.remove("is-dragging"); items.forEach(x=>{x.style.transform="";x.classList.remove("settle","dragging");});
+    if(to!==from){ const id=li.dataset.id; moveItem(from,to); toast(`Moved ${byId[id].employer} to #${to+1}`);} };
+  li.addEventListener("pointermove",move); li.addEventListener("pointerup",up); li.addEventListener("pointercancel",up);
+}
+let clearArm=null;
+function setupClear(){ const b=$("clearList"); if(!b) return;
+  b.onclick=()=>{ if(!S.mine.length){toast("Your list is already empty");return;}
+    if(!clearArm){ b.textContent="Click again to clear"; b.classList.add("btn-danger"); clearArm=setTimeout(()=>{clearArm=null; const bb=$("clearList"); if(bb){bb.textContent="Clear all"; bb.classList.remove("btn-danger");}},3000); return; }
+    clearTimeout(clearArm); clearArm=null; const prev=[...S.mine]; S.mine=[]; save(); update();
+    $("fallbackBox").innerHTML=`<p style="margin:0;color:var(--muted)">List cleared. <button class="linkbtn" id="undoClear">Undo</button></p>`;
+    $("undoClear").onclick=()=>{S.mine=prev.filter(id=>!S.hidden.includes(id)); save(); update(); toast("List restored");}; }; }
+async function copyList(){
+  if(!S.mine.length){toast("Your list is empty");return;}
+  const txt=S.mine.map((id,i)=>{const d=byId[id],tg=tagsOf(id),nt=(S.notes[id]||"").trim(); return `${i+1}. ${d.employer} (#${d.id}), ${d.city}, ${d.state}`+(tg.length?`\n   Tags: ${tg.join(", ")}`:"")+(nt?`\n   Notes: ${nt.replace(/\n+/g," ")}`:"");}).join("\n");
+  const box=$("fallbackBox"); box.innerHTML="";
+  try{ await navigator.clipboard.writeText(txt); toast("List copied with your tags and notes"); }
+  catch(e){ box.innerHTML=`<p style="margin:0 0 8px;color:var(--muted)">Copying is blocked here. Select the text below and copy it.</p><textarea class="fallback" readonly>${esc(txt)}</textarea>`; const ta=box.querySelector("textarea"); ta.focus(); ta.select(); }
+}
+function toggleMine(id){ const i=S.mine.indexOf(id); i>=0?S.mine.splice(i,1):S.mine.push(id); save(); update(); }
+function hideFirm(id){ S.hidden.push(id); const was=S.mine.includes(id); S.mine=S.mine.filter(x=>x!==id); save(); if(st.sel===id){ st.panel="none"; st.sel=null; setSplit(); $("panel").innerHTML=""; } update(); toast(`Hid ${byId[id].employer}${was?" and removed it from your list":""}`); $("q").focus({preventScroll:true}); }
+function refocus(sel){ const el=document.querySelector(sel); el&&el.focus({preventScroll:true}); }
+function toast(m){const t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),2200);}
+function update(){ renderChips(); renderList(); renderCount(); if(st.panel!=="none"){ const p=$("panel"), y=p.scrollTop, ae=document.activeElement&&document.activeElement.id; if(!(ae==="notesIn")){ renderPanel(); p.scrollTop=y; } } }
+let qt; $("q").oninput=e=>{clearTimeout(qt); qt=setTimeout(()=>{st.q=e.target.value.trim().toLowerCase(); renderChips(); renderList();},120);};
+(function(){const b=$("bar");const set=()=>document.documentElement.style.setProperty("--barh",b.offsetHeight+"px");set();try{new ResizeObserver(set).observe(b);}catch(e){window.addEventListener("resize",set);}})();
+update();
+try{ startShader($("heroGl"),{speed:.5,grain:.012,sand:0,scale:.5}); }catch(e){}
+</script>
+</body>
+</html>
